@@ -22,8 +22,10 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('modified_at', models.DateTimeField(auto_now=True)),
                 ('slug', models.SlugField()),
-                ('created_by', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='shop_created', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='shop_modified', to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                                 related_name='shop_created', to=settings.AUTH_USER_MODEL)),
+                ('modified_by', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                                  related_name='shop_modified', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -34,7 +36,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('when', models.DateField(blank=True, default=datetime.date.today)),
-                ('employee', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='salaries', to=settings.AUTH_USER_MODEL, unique_for_month='when')),
+                ('employee', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='salaries',
+                                               to=settings.AUTH_USER_MODEL, unique_for_month='when')),
             ],
         ),
         migrations.CreateModel(
@@ -43,15 +46,19 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('when', models.DateField(blank=True, default=datetime.date.today)),
                 ('value', models.PositiveIntegerField()),
-                ('shop', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='incomes', to='shops.shop', unique_for_month='when')),
+                ('shop',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='incomes', to='shops.shop',
+                                   unique_for_month='when')),
             ],
         ),
         migrations.CreateModel(
             name='Employment',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('shop', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='shop_employments', to='shops.shop')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='employments', to=settings.AUTH_USER_MODEL)),
+                ('shop', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='shop_employments',
+                                           to='shops.shop')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='employments',
+                                           to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

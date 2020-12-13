@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     'django_extensions',
     "bonobo.accounts",
     "bonobo.shops",
@@ -112,14 +113,19 @@ JAZZMIN_SETTINGS = {
     # Custom links to append to app groups, keyed on app name
     'custom_links': {
         'shops': [{
-            'name': 'Index', 'url': 'admin:index', 'icon': 'fa-comments',
+            'name': 'Index', 'url': 'admin:index', 'icon': 'fas fa-comments',
         }]
     },
 
     # Custom icons per model in the side menu See https://www.fontawesomecheatsheet.com/font-awesome-cheatsheet-5x/
     # for a list of icon classes
     'icons': {
-        'accounts.CustomUser': 'fa-user',
+        "auth.Group": "fas fa-users",
+        'accounts.CustomUser': 'fas fa-user',
+        'shops.Shop': 'fas fa-store',
+        'shops.Income': 'fas fa-dollar-sign',
+        'shops.Employment': 'fas fa-user-cog',
+        'shops.Salary': 'fas fa-money-bill',
     }
 }
 
