@@ -5,6 +5,11 @@ FROM python:3.8-slim
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# install libs
+RUN apt-get update && \
+    apt-get install -y gdal-bin --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
+
 # set work directory
 WORKDIR /app
 

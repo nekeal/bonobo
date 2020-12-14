@@ -22,7 +22,7 @@ services:
 
   postgres:
     restart: always
-    image: postgres:13-alpine
+    image: postgis/postgis:13-3.0-alpine
     ports:
       - "5432:5432"
     env_file:
