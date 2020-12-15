@@ -1,0 +1,36 @@
+- model: accounts.customuser
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$216000$1ZvjGAbTRQfK$edWRfUCVFK5gN18CV4VXIatx8zmMbPa3RJ2EupQCEQ4=
+    last_login: 2020-12-11 22:13:16.608612+00:00
+    is_superuser: true
+    username: admin
+    first_name: 'admin'
+    last_name: 'admin'
+    email: ''
+    is_staff: true
+    is_active: true
+    date_joined: 2020-12-11 22:13:10.772882+00:00
+    role: ''
+    shop: null
+    base_salary: null
+    groups: []
+    user_permissions: []
+- model: accounts.customuser
+  pk: 2
+  fields:
+    password: pbkdf2_sha256$216000$MjJVRLDAiwBQ$QC42TV9TTuPMl59TmkFIUIB2f1SCeC/AiKyk2IjzbfY=
+    last_login: null
+    is_superuser: false
+    username: johny123
+    first_name: John
+    last_name: Smith
+    email: john-smith@example.com
+    is_staff: false
+    is_active: true
+    date_joined: 2020-12-11 22:27:01+00:00
+    role: ''
+    shop: null
+    base_salary: null
+    groups: []
+    user_permissions: []
