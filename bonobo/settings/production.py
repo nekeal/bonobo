@@ -7,6 +7,8 @@ ALLOWED_HOSTS = ["*"]
 env_path = Path(".env")
 load_dotenv(dotenv_path=env_path)
 
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
