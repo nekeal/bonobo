@@ -65,7 +65,7 @@ JAZZMIN_SETTINGS = {
     'site_header': 'Bonobo',
 
     # square logo to use for your site, must be present in static files, used for favicon and brand on top left
-    'site_logo': None,
+    'site_logo': "logo.png",
 
     # Welcome text on the login screen
     'welcome_sign': 'Welcome to bonobo',
@@ -112,9 +112,6 @@ JAZZMIN_SETTINGS = {
 
     # Custom links to append to app groups, keyed on app name
     'custom_links': {
-        'shops': [{
-            'name': 'Index', 'url': 'admin:index', 'icon': 'fas fa-comments',
-        }]
     },
 
     # Custom icons per model in the side menu See https://www.fontawesomecheatsheet.com/font-awesome-cheatsheet-5x/
