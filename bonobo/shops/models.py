@@ -1,9 +1,10 @@
-from django.contrib.gis.db import models as gis_models
 import datetime
 
+from django.contrib.gis.db import models as gis_models
 from django.contrib.postgres.fields import DateRangeField
 from django.db import models
-from bonobo.common.models import TimeStampedModel, OwnedModel
+
+from bonobo.common.models import OwnedModel, TimeStampedModel
 
 
 class Shop(TimeStampedModel, OwnedModel):
@@ -15,7 +16,12 @@ class Shop(TimeStampedModel, OwnedModel):
 
 
 class Income(models.Model):
-    shop = models.ForeignKey("Shop", on_delete=models.PROTECT, unique_for_month="when", related_name="incomes")
+    shop = models.ForeignKey(
+        "Shop",
+        on_delete=models.PROTECT,
+        unique_for_month="when",
+        related_name="incomes",
+    )
     when = models.DateField(blank=True, default=datetime.date.today)
     value = models.PositiveIntegerField()
 
@@ -24,8 +30,12 @@ class Income(models.Model):
 
 
 class Employment(models.Model):
-    user = models.ForeignKey('accounts.CustomUser', on_delete=models.PROTECT, related_name="employments")
-    shop = models.ForeignKey('Shop', on_delete=models.PROTECT, related_name="shop_employments")
+    user = models.ForeignKey(
+        "accounts.CustomUser", on_delete=models.PROTECT, related_name="employments"
+    )
+    shop = models.ForeignKey(
+        "Shop", on_delete=models.PROTECT, related_name="shop_employments"
+    )
     timespan = DateRangeField(null=True)
 
     def __str__(self):
@@ -33,7 +43,12 @@ class Employment(models.Model):
 
 
 class Salary(models.Model):
-    employee = models.ForeignKey("accounts.CustomUser", on_delete=models.PROTECT, unique_for_month="when", related_name="salaries")
+    employee = models.ForeignKey(
+        "accounts.CustomUser",
+        on_delete=models.PROTECT,
+        unique_for_month="when",
+        related_name="salaries",
+    )
     when = models.DateField(blank=True, default=datetime.date.today)
 
     def __str__(self):

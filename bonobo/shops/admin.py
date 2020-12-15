@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.contrib.gis.admin import GeoModelAdmin
 
-from bonobo.shops.models import Shop, Income, Employment, Salary
+from bonobo.shops.models import Employment, Income, Salary, Shop
 
 
 @admin.register(Shop)
 class ShopAdmin(GeoModelAdmin):
-    list_display = ('slug', 'get_coordinates')
+    list_display = ("slug", "get_coordinates")
     readonly_fields = ("get_coordinates",)
 
     def get_coordinates(self, instance):
@@ -50,10 +50,9 @@ class EmployemntAdmin(admin.ModelAdmin):
         return super().get_queryset(request).select_related("user", "shop")
 
 
-
 @admin.register(Salary)
 class SalaryAdmin(admin.ModelAdmin):
-    list_display = ("get_user", 'get_date')
+    list_display = ("get_user", "get_date")
 
     def get_user(self, instance):
         return instance.employee.get_full_name()

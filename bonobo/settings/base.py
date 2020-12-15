@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -37,7 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.gis",
-    'django_extensions',
+    "django_extensions",
     "bonobo.accounts",
     "bonobo.shops",
     "bonobo.common",
@@ -55,75 +54,60 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "bonobo.urls"
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 JAZZMIN_SETTINGS = {
     # title of the window
-    'site_title': 'Bonobo Admin',
-
+    "site_title": "Bonobo Admin",
     # Title on the login screen
-    'site_header': 'Bonobo',
-
+    "site_header": "Bonobo",
     # square logo to use for your site, must be present in static files, used for favicon and brand on top left
-    'site_logo': "img/logo.png",
-
+    "site_logo": "img/logo.png",
     # Welcome text on the login screen
-    'welcome_sign': 'Welcome to bonobo',
-
+    "welcome_sign": "Welcome to bonobo",
     # Copyright on the footer
-    'copyright': 'nekeal, SirPatrykKawa',
-
+    "copyright": "nekeal, SirPatrykKawa",
     # The model admin to search from the search bar, search bar omitted if excluded
-    'search_model': 'accounts.User',
-
+    "search_model": "accounts.User",
     # Field name on user model that contains avatar image
-    'user_avatar': None,
-
+    "user_avatar": None,
     # Links to put along the top menu
-    'topmenu_links': [
-
+    "topmenu_links": [
         # Url that gets reversed (Permissions can be added)
-        {'name': 'Home', 'url': 'admin:index', 'permissions': ['auth.view_user']},
-
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         # external url that opens in a new window (Permissions can be added)
-        {'name': 'Support', 'url': 'https://github.com/farridav/django-jazzmin/issues', 'new_window': True},
-
+        {
+            "name": "Support",
+            "url": "https://github.com/farridav/django-jazzmin/issues",
+            "new_window": True,
+        },
         # model admin to link to (Permissions checked against model)
-        {'model': 'accounts.User'},
-
+        {"model": "accounts.User"},
         # App with dropdown menu to all its models pages (Permissions checked against models)
-        {'app': 'shops'},
+        {"app": "shops"},
     ],
-
     # Whether to display the side menu
-    'show_sidebar': True,
-
+    "show_sidebar": True,
     # Whether to aut expand the menu
-    'navigation_expanded': True,
-
+    "navigation_expanded": True,
     # Hide these apps when generating side menu
-    'hide_apps': [],
-
+    "hide_apps": [],
     # Hide these models when generating side menu
-    'hide_models': [],
-
+    "hide_models": [],
     # List of apps to base side menu ordering off of
-    'order_with_respect_to': ['accounts'],
-
+    "order_with_respect_to": ["accounts"],
     # Custom links to append to app groups, keyed on app name
-    'custom_links': {
-    },
-
+    "custom_links": {},
     # Custom icons per model in the side menu See https://www.fontawesomecheatsheet.com/font-awesome-cheatsheet-5x/
     # for a list of icon classes
-    'icons': {
+    "icons": {
         "auth.Group": "fas fa-users",
-        'accounts.CustomUser': 'fas fa-user',
-        'shops.Shop': 'fas fa-store',
-        'shops.Income': 'fas fa-dollar-sign',
-        'shops.Employment': 'fas fa-user-cog',
-        'shops.Salary': 'fas fa-money-bill',
-    }
+        "accounts.CustomUser": "fas fa-user",
+        "shops.Shop": "fas fa-store",
+        "shops.Income": "fas fa-dollar-sign",
+        "shops.Employment": "fas fa-user-cog",
+        "shops.Salary": "fas fa-money-bill",
+    },
 }
 
 TEMPLATES = [
@@ -185,7 +169,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATICFILES_DIRS = ["static", ]
+STATICFILES_DIRS = [
+    "static",
+]
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR.joinpath("public")
