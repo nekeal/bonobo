@@ -13,6 +13,8 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
+TAGS := -t $(DOCKER_REGISTRY):$(shell git rev-parse HEAD) -t $(DOCKER_REGISTRY):$(shell git rev-parse --abbrev-ref HEAD)
+
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
@@ -62,3 +64,10 @@ bootstrap-docker:  ## install requirements
 	docker-compose up -d
 	docker-compose exec web python manage.py loaddata fixtures/*
 
+docker-build:  ## hi
+	git stash --quiet
+	docker build $(TAGS) .
+	git stash pop --quiet
+
+docker-push:
+	docker push $(DOCKER_REGISTRY)
