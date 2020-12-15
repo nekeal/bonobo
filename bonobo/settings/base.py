@@ -65,7 +65,7 @@ JAZZMIN_SETTINGS = {
     'site_header': 'Bonobo',
 
     # square logo to use for your site, must be present in static files, used for favicon and brand on top left
-    'site_logo': "logo.png",
+    'site_logo': "img/logo.png",
 
     # Welcome text on the login screen
     'welcome_sign': 'Welcome to bonobo',
