@@ -35,12 +35,14 @@
     user: 1
     shop: 1
     timespan: '{"bounds": "[)", "lower": "2020-06-01", "upper": "2020-11-01"}'
+    role: "MANAGER"
 - model: shops.employment
   pk: 2
   fields:
-    user: 1
+    user: 2
     shop: 2
     timespan: '{"bounds": "[)", "lower": "2020-01-01", "upper": null}'
+    role: "CASHIER"
 - model: shops.salary
   pk: 1
   fields:

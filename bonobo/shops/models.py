@@ -5,6 +5,7 @@ from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 
 from bonobo.common.models import OwnedModel, TimeStampedModel
+from bonobo.shops.choices import EmployeeRoleChoices
 
 
 class Shop(TimeStampedModel, OwnedModel):
@@ -35,6 +36,10 @@ class Employment(models.Model):
     )
     shop = models.ForeignKey(
         "Shop", on_delete=models.PROTECT, related_name="shop_employments"
+    )
+    role = models.CharField(
+        max_length=20,
+        choices=EmployeeRoleChoices.choices,
     )
     timespan = DateRangeField(null=True)
 

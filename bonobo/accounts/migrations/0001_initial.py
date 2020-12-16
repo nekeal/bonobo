@@ -97,7 +97,6 @@ class Migration(migrations.Migration):
                         default=django.utils.timezone.now, verbose_name="date joined"
                     ),
                 ),
-                ("role", models.CharField(choices=[], max_length=20)),
                 (
                     "base_salary",
                     models.PositiveSmallIntegerField(blank=True, null=True),

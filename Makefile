@@ -60,6 +60,11 @@ bootstrap:  ## install requirements
 	python manage.py migrate
 	python manage.py loaddata fixtures/*
 
+rebuild-db:  ## recreates database with fixtures
+	echo yes | python manage.py reset_db
+	python manage.py migrate
+	python manage.py loaddata fixtures/*
+
 bootstrap-docker:  ## install requirements
 	docker-compose up -d
 	docker-compose exec web python manage.py loaddata fixtures/*

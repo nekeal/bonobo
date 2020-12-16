@@ -8,9 +8,10 @@ import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
 
+from bonobo.shops.choices import EmployeeRoleChoices
+
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -130,7 +131,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "timespan",
-                    django.contrib.postgres.fields.ranges.DateRangeField(null=False),
+                    django.contrib.postgres.fields.ranges.DateRangeField(null=True),
                 ),
                 (
                     "shop",
@@ -146,6 +147,13 @@ class Migration(migrations.Migration):
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="employments",
                         to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "role",
+                    models.CharField(
+                        choices=[EmployeeRoleChoices.choices],
+                        max_length=20,
                     ),
                 ),
             ],
