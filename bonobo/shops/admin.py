@@ -34,7 +34,7 @@ class IncomeAdmin(admin.ModelAdmin):
 
 @admin.register(Employment)
 class EmployemntAdmin(admin.ModelAdmin):
-    list_display = ("get_user", "get_shop", "timespan")
+    list_display = ("get_user", "role", "get_shop", "timespan")
 
     def get_user(self, instance):
         return instance.user.get_full_name()

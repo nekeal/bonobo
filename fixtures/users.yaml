@@ -11,8 +11,6 @@
     is_staff: true
     is_active: true
     date_joined: 2020-12-11 22:13:10.772882+00:00
-    role: ''
-    shop: null
     base_salary: null
     groups: []
     user_permissions: []
@@ -29,8 +27,6 @@
     is_staff: false
     is_active: true
     date_joined: 2020-12-11 22:27:01+00:00
-    role: ''
-    shop: null
     base_salary: null
     groups: []
     user_permissions: []

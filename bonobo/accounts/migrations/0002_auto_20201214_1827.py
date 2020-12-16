@@ -17,16 +17,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name="customuser",
-            name="shop",
-            field=models.ForeignKey(
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                related_name="Employees",
-                to="shops.shop",
-            ),
-        ),
-        migrations.AddField(
-            model_name="customuser",
             name="user_permissions",
             field=models.ManyToManyField(
                 blank=True,
