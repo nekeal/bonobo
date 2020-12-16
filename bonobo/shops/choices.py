@@ -2,5 +2,5 @@ from django.db.models import TextChoices
 
 
 class EmployeeRoleChoices(TextChoices):
-    CASHIER = "CASHIER", "CASHIER"
-    MANAGER = "MANAGER", "MANAGER"
+    CASHIER = "CASHIER", "Cashier"
+    MANAGER = "MANAGER", "Manager"

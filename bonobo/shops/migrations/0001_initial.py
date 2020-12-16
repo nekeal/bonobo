@@ -152,7 +152,7 @@ class Migration(migrations.Migration):
                 (
                     "role",
                     models.CharField(
-                        choices=[EmployeeRoleChoices.choices],
+                        choices=EmployeeRoleChoices.choices,
                         max_length=20,
                     ),
                 ),

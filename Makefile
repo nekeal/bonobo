@@ -72,7 +72,7 @@ bootstrap-docker:  ## install requirements
 docker-build:  ## hi
 	git stash --quiet
 	docker build $(TAGS) .
-	git stash pop --quiet
+	git stash pop --quiet | true
 
 docker-push:
 	docker push $(DOCKER_REGISTRY)
