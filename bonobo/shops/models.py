@@ -5,12 +5,23 @@ from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 
 from bonobo.common.models import OwnedModel, TimeStampedModel
+from bonobo.shops.entities import GeocodedPlace
 from bonobo.shops.choices import EmployeeRoleChoices
 
 
 class Shop(TimeStampedModel, OwnedModel):
+    maps_url = models.URLField(blank=True)
     slug = models.SlugField()
+    place_name = models.CharField(max_length=200, blank=True)
     location = gis_models.PointField(geography=True, null=True)
+
+    def update_with_geocoded_place(
+        self, geocoded_place: GeocodedPlace, save=True
+    ) -> None:
+        self.place_name = geocoded_place.place
+        self.location = geocoded_place.point
+        if save:
+            self.save()
 
     def __str__(self):
         return self.slug

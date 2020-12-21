@@ -1,3 +1,18 @@
 [tool.isort]
 profile = "black"
 src_paths = "bonobo"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "bonobo.settings.local"
+python_files = [
+    "tests.py",
+    "test_*.py",
+    "*_tests.py"
+]
+testpaths = [
+    "bonobo",
+]
+norecursedirs = [
+    "deployment",
+    "static",
+]
