@@ -5,8 +5,8 @@ from django.contrib.postgres.fields import DateRangeField
 from django.db import models
 
 from bonobo.common.models import OwnedModel, TimeStampedModel
-from bonobo.shops.entities import GeocodedPlace
 from bonobo.shops.choices import EmployeeRoleChoices
+from bonobo.shops.entities import GeocodedPlace
 
 
 class Shop(TimeStampedModel, OwnedModel):

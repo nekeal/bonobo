@@ -1,9 +1,11 @@
 # type: ignore
+from typing import Any
 
 from django.contrib import admin
 from django.contrib.gis.admin import GeoModelAdmin
 
 from bonobo.shops.models import Employment, Income, Salary, Shop
+from bonobo.shops.services import ShopGeocodingService
 
 
 @admin.register(Shop)
@@ -16,6 +18,11 @@ class ShopAdmin(GeoModelAdmin):
 
     get_coordinates.short_description = "Coordinates"
     get_coordinates.admin_order_field = "location"
+
+    def save_model(self, request: Any, obj: Shop, form: Any, change: Any) -> None:
+        if obj.maps_url:
+            obj, updated = ShopGeocodingService(obj, save=False).run()
+        return super(ShopAdmin, self).save_model(request, obj, form, change)
 
 
 @admin.register(Income)
