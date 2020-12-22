@@ -2,7 +2,10 @@
 from typing import Any
 
 from django.contrib import admin
+from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.gis.admin import GeoModelAdmin
+from django.contrib.postgres.fields import DateRangeField
+from django.contrib.postgres.forms import RangeWidget
 
 from bonobo.shops.models import Employment, Income, Salary, Shop
 from bonobo.shops.services import ShopGeocodingService
@@ -42,6 +45,9 @@ class IncomeAdmin(admin.ModelAdmin):
 @admin.register(Employment)
 class EmployemntAdmin(admin.ModelAdmin):
     list_display = ("get_user", "role", "get_shop", "timespan")
+    formfield_overrides = {
+        DateRangeField: {"widget": RangeWidget(AdminDateWidget())},
+    }
 
     def get_user(self, instance):
         return instance.user.get_full_name()
