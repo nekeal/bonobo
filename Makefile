@@ -13,7 +13,9 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
-TAGS := -t $(DOCKER_REGISTRY):$(shell git rev-parse HEAD) -t $(DOCKER_REGISTRY):$(shell git rev-parse --abbrev-ref HEAD)
+COMMIT_SHA := $(shell git rev-parse HEAD)
+BRANCH_NAME := $(shell git rev-parse --abbrev-ref HEAD)
+TAGS := -t $(DOCKER_REGISTRY):$(COMMIT_SHA) -t $(DOCKER_REGISTRY):$(BRANCH_NAME)
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
@@ -69,10 +71,15 @@ bootstrap-docker:  ## install requirements
 	docker-compose up -d
 	docker-compose exec web python manage.py loaddata fixtures/*
 
+show-docker-tags: ## shows docker tags for building and pushing image
+	echo $(TAGS)
+
 docker-build:  ## hi
 	git stash --quiet
 	docker build $(TAGS) .
 	git stash pop --quiet | true
 
 docker-push:
-	docker push $(DOCKER_REGISTRY)
+	docker push $(DOCKER_REGISTRY):$(COMMIT_SHA)
+	docker push $(DOCKER_REGISTRY):$(BRANCH_NAME)
+
