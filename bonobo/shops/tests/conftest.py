@@ -1,5 +1,5 @@
 import pytest
-from django.contrib.gis.gdal.geometries import Point
+from django.contrib.gis.geos.point import Point
 
 from bonobo.shops.entities import GeocodedPlace
 from bonobo.shops.factories import ShopFactory

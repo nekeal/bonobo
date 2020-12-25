@@ -3,10 +3,28 @@ import datetime
 from django.contrib.gis.db import models as gis_models
 from django.contrib.postgres.fields import DateRangeField
 from django.db import models
+from django.db.models import Q, QuerySet
+from django.db.models.aggregates import Avg, Min, Sum
 
 from bonobo.common.models import OwnedModel, TimeStampedModel
 from bonobo.shops.choices import EmployeeRoleChoices
 from bonobo.shops.entities import GeocodedPlace
+
+
+class ShopQuerySet(QuerySet["Shop"]):  # type: ignore
+    def annotate_metrics(self, year, month=None):
+        qs = self.annotate(
+            income_month_sum=Sum(
+                "incomes__value", filter=Q(incomes__when__month=month)
+            ),
+        )
+        if month:
+            qs = qs.annotate(
+                income_year_sum=Sum(
+                    "incomes__value", filter=Q(incomes__when__year=year)
+                ),
+            )
+        return qs
 
 
 class Shop(TimeStampedModel, OwnedModel):
@@ -22,6 +40,8 @@ class Shop(TimeStampedModel, OwnedModel):
         self.location = geocoded_place.point
         if save:
             self.save()
+
+    objects = ShopQuerySet.as_manager()
 
     def __str__(self):
         return self.slug
