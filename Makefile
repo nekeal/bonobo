@@ -74,12 +74,9 @@ bootstrap-docker:  ## install requirements
 show-docker-tags: ## shows docker tags for building and pushing image
 	echo $(TAGS)
 
-docker-build:  ## hi
-	git stash --quiet
+docker-build:  ## build docker image
 	docker build $(TAGS) .
-	git stash pop --quiet | true
 
 docker-push:
 	docker push $(DOCKER_REGISTRY):$(COMMIT_SHA)
 	docker push $(DOCKER_REGISTRY):$(BRANCH_NAME)
-
