@@ -2,28 +2,43 @@ import datetime
 
 from django.contrib.gis.db import models as gis_models
 from django.contrib.postgres.fields import DateRangeField
-from django.db import models
+from django.db import connection, models
 from django.db.models import Q, QuerySet
-from django.db.models.aggregates import Avg, Min, Sum
+from django.db.models.aggregates import Sum
 
 from bonobo.common.models import OwnedModel, TimeStampedModel
 from bonobo.shops.choices import EmployeeRoleChoices
 from bonobo.shops.entities import GeocodedPlace
 
 
-class ShopQuerySet(QuerySet["Shop"]):  # type: ignore
+class ShopQuerySet(QuerySet["Shop"]):
     def annotate_metrics(self, year, month=None):
         qs = self.annotate(
-            income_month_sum=Sum(
-                "incomes__value", filter=Q(incomes__when__month=month)
-            ),
+            income_year_sum=Sum("incomes__value", filter=Q(incomes__when__year=year)),
         )
         if month:
             qs = qs.annotate(
-                income_year_sum=Sum(
-                    "incomes__value", filter=Q(incomes__when__year=year)
+                income_month_sum=Sum(
+                    "incomes__value", filter=Q(incomes__when__month=month)
                 ),
             )
+        # return qs
+        # breakpofrint()
+        # qs = self.raw("SELECT shops_shop.id,"
+        #                 "shops_shop.created_at,"
+        #                 "shops_shop.modified_at,"
+        #                 "shops_shop.created_by_id,"
+        #                 "shops_shop.modified_by_id,"
+        #                 "shops_shop.maps_url,"
+        #                 "shops_shop.slug,"
+        #                 "shops_shop.place_name,"
+        #                 "shops_shop.location :: bytea,"
+        #                 "SUM(shops_income.value) FILTER"
+        #                 "( "
+        #                 "WHERE shops_income.when BETWEEN '%(year)s-01-01' AND '%(year)s-12-31') AS income_year_sum "
+        #                 "FROM shops_shop "
+        #                 "LEFT OUTER JOIN shops_income ON (shops_shop.id = shops_income.shop_id) "
+        #                 "GROUP BY shops_shop.id;", {"year": year})
         return qs
 
 
@@ -45,6 +60,17 @@ class Shop(TimeStampedModel, OwnedModel):
 
     def __str__(self):
         return self.slug
+
+    def get_income_for_period(self, begin: datetime.datetime, end: datetime.datetime):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT COALESCE(SUM(value), 0)"
+                " FROM shops_income"
+                " WHERE shop_id=%s"
+                " AND shops_income.when BETWEEN %s AND %s",
+                [self.id, begin.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")],
+            )
+            return cursor.fetchone()[0]
 
 
 class Income(models.Model):
