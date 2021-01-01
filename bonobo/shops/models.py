@@ -2,11 +2,27 @@ import datetime
 
 from django.contrib.gis.db import models as gis_models
 from django.contrib.postgres.fields import DateRangeField
-from django.db import models
+from django.db import connection, models
+from django.db.models import Q, QuerySet
+from django.db.models.aggregates import Sum
 
 from bonobo.common.models import OwnedModel, TimeStampedModel
 from bonobo.shops.choices import EmployeeRoleChoices
 from bonobo.shops.entities import GeocodedPlace
+
+
+class ShopQuerySet(QuerySet["Shop"]):
+    def annotate_metrics(self, year, month=None):
+        qs = self.annotate(
+            income_year_sum=Sum("incomes__value", filter=Q(incomes__when__year=year)),
+        )
+        if month:
+            qs = qs.annotate(
+                income_month_sum=Sum(
+                    "incomes__value", filter=Q(incomes__when__month=month)
+                ),
+            )
+        return qs
 
 
 class Shop(TimeStampedModel, OwnedModel):
@@ -23,8 +39,21 @@ class Shop(TimeStampedModel, OwnedModel):
         if save:
             self.save()
 
+    objects = ShopQuerySet.as_manager()
+
     def __str__(self):
         return self.slug
+
+    def get_income_for_period(self, begin: datetime.datetime, end: datetime.datetime):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT COALESCE(SUM(value), 0)"
+                " FROM shops_income"
+                " WHERE shop_id=%s"
+                " AND shops_income.when BETWEEN %s AND %s",
+                [self.id, begin.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")],
+            )
+            return cursor.fetchone()[0]
 
 
 class Income(models.Model):

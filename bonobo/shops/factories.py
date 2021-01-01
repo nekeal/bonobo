@@ -1,8 +1,10 @@
 import factory
 from django.contrib.gis.geos.point import Point
+from django.utils import timezone
+from factory import fuzzy
 from factory.django import DjangoModelFactory
 
-from bonobo.shops.models import Shop
+from bonobo.shops.models import Income, Shop
 
 
 class ShopFactory(DjangoModelFactory):
@@ -15,3 +17,15 @@ class ShopFactory(DjangoModelFactory):
 
     class Meta:
         model = Shop
+
+
+class IncomeFactory(DjangoModelFactory):
+    shop = factory.SubFactory(ShopFactory)
+    when = factory.fuzzy.FuzzyDate(
+        start_date=timezone.now().date().replace(day=1, month=1),
+        end_date=timezone.now().date(),
+    )
+    value = factory.Sequence(lambda n: n)
+
+    class Meta:
+        model = Income
