@@ -1,6 +1,9 @@
 from datetime import date
 
-from bonobo.shops.factories import IncomeFactory
+import pytest
+from django.contrib.gis.geos.point import Point
+
+from bonobo.shops.factories import IncomeFactory, ShopFactory
 from bonobo.shops.models import Income, Shop
 
 
@@ -23,3 +26,38 @@ class TestShopQuerySet:
         income3 = IncomeFactory.build(shop=shop, when=date(2020, 1, 3), value=300)
         Income.objects.bulk_create([income1, income2, income3])
         assert shop.get_income_for_period(date(2020, 1, 2), date(2020, 1, 3)) == 500
+
+    @pytest.mark.parametrize(
+        ("radius", "expected_ids"),
+        (
+            (1, set()),
+            (
+                1481,
+                {
+                    1,
+                },
+            ),
+            (
+                1482,
+                {
+                    1,
+                    2,
+                },
+            ),
+        ),
+    )
+    @pytest.mark.django_db
+    def test_find_nearby(self, radius, expected_ids):
+        Shop.objects.bulk_create(
+            [
+                ShopFactory.build(id=1, location=Point(x=10, y=15)),
+                ShopFactory.build(id=2, location=Point(x=20, y=25)),
+            ]
+        )
+
+        point = Point(10, 15.5)
+        result = {
+            shop.id
+            for shop in Shop.objects.find_nearby(point, radius=radius, unit="km")
+        }
+        assert expected_ids == result

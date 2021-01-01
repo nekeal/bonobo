@@ -24,6 +24,26 @@ class ShopQuerySet(QuerySet["Shop"]):
             )
         return qs
 
+    def find_nearby(self, point, radius=100, unit="m"):
+        si = {"m": 1, "km": 1000, "cm": 0.1}
+        radius = radius * si[unit]
+        table_name = self.model._meta.db_table
+        fields = self.model._meta.fields
+        location_fields = [
+            field.name for field in fields if isinstance(field, gis_models.PointField)
+        ]
+        non_location_columns = [
+            f"{table_name}.{field.column}"
+            for field in fields
+            if not isinstance(field, gis_models.PointField)
+        ]
+        q = (
+            f'SELECT {", ".join(non_location_columns)}, {", ".join(location_fields)}::bytea'
+            f" FROM {table_name} "
+            f'WHERE ST_Distance("shops_shop"."location", ST_GeogFromWKB(\'\\x{point.wkb.hex()}\'::bytea)) <= {radius}'
+        )
+        return self.raw(q)
+
 
 class Shop(TimeStampedModel, OwnedModel):
     maps_url = models.URLField(blank=True)
