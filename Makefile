@@ -1,5 +1,15 @@
 .DEFAULT_GOAL := help
 
+define BROWSER_PYSCRIPT
+import os, webbrowser, sys
+
+from urllib.request import pathname2url
+
+webbrowser.open("file://" + pathname2url(os.path.abspath(sys.argv[1])))
+endef
+export BROWSER_PYSCRIPT
+
+
 define PRINT_HELP_PYSCRIPT
 import re, sys
 
@@ -43,7 +53,7 @@ test-all: ## run tests on every Python version with tox
 
 coverage: ## check code coverage quickly with the default Python
 	pytest --cov=bonobo
-	run coverage report -m
+	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 

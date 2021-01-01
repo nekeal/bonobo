@@ -16,3 +16,8 @@ norecursedirs = [
     "deployment",
     "static",
 ]
+
+[tool.coverage.run]
+omit = [
+    '*/migrations/*'
+]

@@ -22,23 +22,6 @@ class ShopQuerySet(QuerySet["Shop"]):
                     "incomes__value", filter=Q(incomes__when__month=month)
                 ),
             )
-        # return qs
-        # breakpofrint()
-        # qs = self.raw("SELECT shops_shop.id,"
-        #                 "shops_shop.created_at,"
-        #                 "shops_shop.modified_at,"
-        #                 "shops_shop.created_by_id,"
-        #                 "shops_shop.modified_by_id,"
-        #                 "shops_shop.maps_url,"
-        #                 "shops_shop.slug,"
-        #                 "shops_shop.place_name,"
-        #                 "shops_shop.location :: bytea,"
-        #                 "SUM(shops_income.value) FILTER"
-        #                 "( "
-        #                 "WHERE shops_income.when BETWEEN '%(year)s-01-01' AND '%(year)s-12-31') AS income_year_sum "
-        #                 "FROM shops_shop "
-        #                 "LEFT OUTER JOIN shops_income ON (shops_shop.id = shops_income.shop_id) "
-        #                 "GROUP BY shops_shop.id;", {"year": year})
         return qs
 
 
