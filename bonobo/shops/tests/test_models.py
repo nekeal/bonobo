@@ -1,7 +1,9 @@
+import re
 from datetime import date
 
 import pytest
 from django.contrib.gis.geos.point import Point
+from django.utils import timezone
 
 from bonobo.shops.factories import IncomeFactory, ShopFactory
 from bonobo.shops.models import Income, Shop
@@ -61,3 +63,10 @@ class TestShopQuerySet:
             for shop in Shop.objects.find_nearby(point, radius=radius, unit="km")
         }
         assert expected_ids == result
+
+    @pytest.mark.django_db
+    def test_shop_reference_is_automatically_assigned(self):
+        shop = ShopFactory(reference="random")
+        assert shop.reference == "random"
+        shop.refresh_from_db()
+        assert re.match(f"bonobo-{timezone.now().year}-\\d+", shop.reference)
