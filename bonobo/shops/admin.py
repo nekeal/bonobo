@@ -33,7 +33,7 @@ class ShopAdmin(GeoModelAdmin):
 
     def get_income_month_sum(self, instance: Shop):
         now = timezone.now()
-        previous_month_begin = now.replace(month=now.month - 1, day=1)
+        previous_month_begin = (now.replace(day=1) - timedelta(days=1)).replace(day=1)
         value = instance.get_income_for_period(
             previous_month_begin, now.replace(day=1) - timedelta(days=1)
         )

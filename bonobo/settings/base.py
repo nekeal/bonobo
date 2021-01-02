@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     "django_extensions",
+    "rest_framework",
+    "rest_framework_gis",
+    "django_filters",
     "bonobo.accounts",
     "bonobo.shops",
     "bonobo.common",
@@ -108,6 +111,10 @@ JAZZMIN_SETTINGS = {
         "shops.Employment": "fas fa-user-cog",
         "shops.Salary": "fas fa-money-bill",
     },
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"]
 }
 
 TEMPLATES = [

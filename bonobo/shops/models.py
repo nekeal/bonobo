@@ -3,7 +3,7 @@ import datetime
 from django.contrib.gis.db import models as gis_models
 from django.contrib.postgres.fields import DateRangeField
 from django.db import connection, models
-from django.db.models import Q, QuerySet
+from django.db.models import Manager, Q, QuerySet
 from django.db.models.aggregates import Sum
 
 from bonobo.common.models import OwnedModel, TimeStampedModel
@@ -59,7 +59,7 @@ class Shop(TimeStampedModel, OwnedModel):
         if save:
             self.save()
 
-    objects = ShopQuerySet.as_manager()
+    objects = Manager.from_queryset(ShopQuerySet)
 
     def __str__(self):
         return self.slug
