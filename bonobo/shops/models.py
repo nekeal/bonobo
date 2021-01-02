@@ -59,7 +59,7 @@ class Shop(TimeStampedModel, OwnedModel):
         if save:
             self.save()
 
-    objects = Manager.from_queryset(ShopQuerySet)
+    objects = Manager.from_queryset(ShopQuerySet)()
 
     def __str__(self):
         return self.slug

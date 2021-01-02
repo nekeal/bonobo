@@ -7,7 +7,7 @@ from bonobo.shops.models import Shop
 class ShopViewSetListInputSerializer(serializers.Serializer):
     lat = serializers.FloatField()
     long = serializers.FloatField()
-    radius = serializers.FloatField(default=100)
+    radius = serializers.FloatField(default=1000)
     unit = serializers.ChoiceField(
         choices=["m", "km", "cm"], required=False, default="m"
     )
