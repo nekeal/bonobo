@@ -3,7 +3,7 @@ import datetime
 from django.contrib.gis.db import models as gis_models
 from django.contrib.postgres.fields import DateRangeField
 from django.db import connection, models
-from django.db.models import Q, QuerySet
+from django.db.models import Manager, Q, QuerySet
 from django.db.models.aggregates import Sum
 
 from bonobo.common.models import OwnedModel, TimeStampedModel
@@ -24,6 +24,26 @@ class ShopQuerySet(QuerySet["Shop"]):
             )
         return qs
 
+    def find_nearby(self, point, radius=100, unit="m"):
+        si = {"m": 1, "km": 1000, "cm": 0.1}
+        radius = radius * si[unit]
+        table_name = self.model._meta.db_table
+        fields = self.model._meta.fields
+        location_fields = [
+            field.name for field in fields if isinstance(field, gis_models.PointField)
+        ]
+        non_location_columns = [
+            f"{table_name}.{field.column}"
+            for field in fields
+            if not isinstance(field, gis_models.PointField)
+        ]
+        q = (
+            f'SELECT {", ".join(non_location_columns)}, {", ".join(location_fields)}::bytea'
+            f" FROM {table_name} "
+            f'WHERE ST_Distance("shops_shop"."location", ST_GeogFromWKB(\'\\x{point.wkb.hex()}\'::bytea)) <= {radius}'
+        )
+        return self.raw(q)
+
 
 class Shop(TimeStampedModel, OwnedModel):
     maps_url = models.URLField(blank=True)
@@ -39,7 +59,7 @@ class Shop(TimeStampedModel, OwnedModel):
         if save:
             self.save()
 
-    objects = ShopQuerySet.as_manager()
+    objects = Manager.from_queryset(ShopQuerySet)()
 
     def __str__(self):
         return self.slug

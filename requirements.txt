@@ -7,3 +7,7 @@ django-extensions==3.1.0
 pyyaml==5.3.1
 dataclasses-json==0.5.2
 django-debug-toolbar==3.2
+djangorestframework==3.12.2
+drf-flex-fields==0.8.8
+djangorestframework-gis==0.16
+django-filter==2.4.0
