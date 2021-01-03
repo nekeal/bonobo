@@ -50,6 +50,7 @@ class Shop(TimeStampedModel, OwnedModel):
     slug = models.SlugField()
     place_name = models.CharField(max_length=200, blank=True)
     location = gis_models.PointField(geography=True, null=True)
+    reference = models.CharField(max_length=200, blank=True)
 
     def update_with_geocoded_place(
         self, geocoded_place: GeocodedPlace, save=True

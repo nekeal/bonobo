@@ -8,6 +8,7 @@
     maps_url: https://www.google.com/maps/place/Zamek+Królewski+na+Wawelu/@50.0541115,19.9332343,17z/data=!3m1!4b1!4m5!3m4!1s0x47165b6d053619f5:0xacb9dfc4d67fa598!8m2!3d50.0541115!4d19.935423?hl=PL
     slug: bonobo-krakow
     place_name: Zamek Królewski na Wawelu
+    reference: bonobo-2020-10001
     location: SRID=4326;POINT (19.9332343 50.0541115)
 - model: shops.shop
   pk: 2
@@ -19,6 +20,7 @@
     maps_url: https://www.google.com/maps/place/Pałac+Kultury+i+Nauki+Bonobo/@52.231838,21.0038063,17z/data=!3m1!4b1!4m5!3m4!1s0x471ecc8c92692e49:0xc2e97ae5311f2dc2!8m2!3d52.231838!4d21.005995?hl=PL
     slug: bonobo-warszawa
     place_name: PaŁac Kultury i Nauki Bonobo
+    reference: bonobo-2020-10002
     location: SRID=4326;POINT (21.0038063 52.231838)
 
 
@@ -31,9 +33,21 @@
 - model: shops.income
   pk: 2
   fields:
+    shop: 1
+    when: 2021-1-2
+    value: 1000
+- model: shops.income
+  pk: 3
+  fields:
     shop: 2
     when: 2020-11-01
     value: 99000
+- model: shops.income
+  pk: 4
+  fields:
+    shop: 2
+    when: 2020-12-31
+    value: 45000
 - model: shops.employment
   pk: 1
   fields:
