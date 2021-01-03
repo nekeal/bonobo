@@ -36,6 +36,6 @@ class Migration(migrations.Migration):
             drop trigger shop_id_sequence_for_year_trigger on shops_shop;
             --- Drop function ---
             drop function shop_id_sequence_for_year;
-            """
+            """,
         ),
     ]

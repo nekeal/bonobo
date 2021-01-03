@@ -3,6 +3,7 @@ from datetime import date
 
 import pytest
 from django.contrib.gis.geos.point import Point
+from django.db import connection
 from django.utils import timezone
 
 from bonobo.shops.factories import IncomeFactory, ShopFactory
@@ -70,3 +71,14 @@ class TestShopQuerySet:
         assert shop.reference == "random"
         shop.refresh_from_db()
         assert re.match(f"bonobo-{timezone.now().year}-\\d+", shop.reference)
+
+    @pytest.mark.django_db
+    def test_sequence_is_created(self):
+        ShopFactory()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f"select exists (select relname from pg_class "
+                f"where relkind = 'S' "
+                f"and relname = 'shop_reference_{timezone.now().year}');"
+            )
+            assert cursor.fetchone()[0] is True
