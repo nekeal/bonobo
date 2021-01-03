@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                             $$DECLARE
                                seqname text := 'shop_reference_' || extract('year' from now());
                             BEGIN
-                                EXECUTE 'CREATE SEQUENCE IF NOT EXISTS ' || seqname || ' START 10000';
+                                EXECUTE 'CREATE SEQUENCE IF NOT EXISTS ' || seqname || ' START 10001';
                                 NEW.reference := (Concat('bonobo-', EXTRACT('year' from now()), '-', (select nextval(seqname))));
                                 RETURN NEW;
                             END;$$;

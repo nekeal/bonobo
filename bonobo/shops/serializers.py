@@ -16,4 +16,4 @@ class ShopViewSetListInputSerializer(serializers.Serializer):
 class ShopModelSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = Shop
-        fields = ("id", "slug", "maps_url", "location")
+        fields = ("id", "slug", "reference", "maps_url", "location")
