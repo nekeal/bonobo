@@ -72,13 +72,16 @@
   fields:
     employee: 2
     when: 2020-10-10
+    value: 1000
 - model: shops.salary
   pk: 3
   fields:
     employee: 2
     when: 2020-09-11
+    value: 2000
 - model: shops.salary
   pk: 4
   fields:
     employee: 1
     when: 2020-12-01
+    value: 3000
