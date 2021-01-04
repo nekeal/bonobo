@@ -19,6 +19,7 @@ from bonobo.shops.services import ShopGeocodingService
 class ShopAdmin(GeoModelAdmin):
     list_display = (
         "slug",
+        "reference",
         "get_coordinates",
         "get_income_month_sum",
         "get_current_year_income",
@@ -99,7 +100,7 @@ class EmploymentAdmin(admin.ModelAdmin):
 
 @admin.register(Salary)
 class SalaryAdmin(admin.ModelAdmin):
-    list_display = ("get_user", "get_date")
+    list_display = ("get_user", "get_date", "value")
 
     def get_user(self, instance):
         return instance.employee.get_full_name()

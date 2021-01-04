@@ -76,6 +76,10 @@ class Shop(TimeStampedModel, OwnedModel):
             )
             return cursor.fetchone()[0]
 
+    def close(self):
+        with connection.cursor() as cursor:
+            cursor.execute("select close_shop(%s)", [self.id,])
+
 
 class Income(models.Model):
     shop = models.ForeignKey(
@@ -116,6 +120,7 @@ class Salary(models.Model):
         related_name="salaries",
     )
     when = models.DateField(blank=True, default=datetime.date.today)
+    value = models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
     def __str__(self):
         return f"{self.employee.first_name} {self.employee.last_name} - {self.when}"

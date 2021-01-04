@@ -5,9 +5,11 @@ import pytest
 from django.contrib.gis.geos.point import Point
 from django.db import connection
 from django.utils import timezone
+from psycopg2._range import DateRange
 
+from bonobo.shops.choices import EmployeeRoleChoices
 from bonobo.shops.factories import IncomeFactory, ShopFactory
-from bonobo.shops.models import Income, Shop
+from bonobo.shops.models import Income, Shop, Employment, Salary
 
 
 class TestShopQuerySet:
@@ -82,3 +84,19 @@ class TestShopQuerySet:
                 f"and relname = 'shop_reference_{timezone.now().year}');"
             )
             assert cursor.fetchone()[0] is True
+
+    def test_closing_shop_gives_all_employees_salary(self, shop, admin_user):
+        shop2 = ShopFactory()
+        employee1 = Employment.objects.create(user=admin_user, shop=shop, role=EmployeeRoleChoices.CASHIER, timespan=DateRange(date(2020, 12, 1)))
+        employee2 = Employment.objects.create(user=admin_user, shop=shop, role=EmployeeRoleChoices.CASHIER, timespan=DateRange(date(2020, 12, 1), date(2021, 1, 1)))
+        employee3 = Employment.objects.create(user=admin_user, shop=shop2, role=EmployeeRoleChoices.CASHIER, timespan=DateRange(date(2020, 12, 1)))
+        shop.close()
+        employee1_salary = Salary.objects.get()  # only single salary
+        assert employee1_salary.value == 2000
+        assert employee1_salary.when == timezone.now().date()
+        employee1.refresh_from_db()
+        employee2.refresh_from_db()
+        employee3.refresh_from_db()
+        assert employee1.timespan.upper == timezone.now().date()
+        assert employee2.timespan.upper == date(2021, 1, 1)
+        assert employee3.timespan.upper is None
