@@ -4,7 +4,7 @@ from django.utils import timezone
 from factory import fuzzy
 from factory.django import DjangoModelFactory
 
-from bonobo.shops.models import Income, Shop
+from bonobo.shops.models import Income, Shop, Employment
 
 
 class ShopFactory(DjangoModelFactory):
