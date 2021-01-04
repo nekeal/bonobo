@@ -2,7 +2,7 @@
 from datetime import timedelta
 from typing import Any
 
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.gis.admin import GeoModelAdmin
 from django.contrib.postgres.fields import DateRangeField
@@ -25,6 +25,12 @@ class ShopAdmin(GeoModelAdmin):
         "get_current_year_income",
     )
     readonly_fields = ("get_coordinates",)
+    actions = ["close_shops"]
+
+    def close_shops(self, request, queryset):
+        for shop in queryset:
+            shop.close()
+        messages.success(request, "Successfully closed selected shops", )
 
     def get_coordinates(self, instance):
         return f"{instance.location.x}, {instance.location.y}"
