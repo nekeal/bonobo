@@ -2,9 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BONOBO - Homepage</title>
+    <title>Bonobo</title>
+    <meta name="authors" content="Nekeal, SirPatrykKawa">
+    <meta name="description" content="AGH UST database class project">
+    <link rel="icon" href="../static/img/logo.png">
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
 </head>
-<body>
-<h1>BONOBO - Homepage</h1>
+<body style="background-color: #5a6268">
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(setPosition);
+        } else {
+            window.alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function setPosition(position) {
+        window.alert("X: " + position.coords.latitude + " and Y: " + position.coords.longitude);
+        document.forms["GPS_form"]["shopXCoordinates"].value = position.coords.longitude;
+        document.forms["GPS_form"]["shopYCoordinates"].value = position.coords.latitude;
+        document.forms["GPS_form"]["radius"].value = 10;
+        document.getElementById("unit").selectIndex = "0";
+        document.getElementById("GPS_form").submit();
+    }
+</script>
+<form class="Bonobo-main" method="post" role="form" id="GPS_form">
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand mb-lg-3 h3">Bonobo - shop well, feel well!</span>
+    </nav>
+    <img class="rounded mx-auto d-block p-4" src="../static/img/logo.png" alt="" width="300" height="300">
+    <h1 class="h3 mb-3 font-weight-normal text-center p-1">Enter shop coordinates</h1>
+    <label for="shopXCoordinates" class="label p-0 "></label>
+    <div class="centered">
+        <div class="col-lg-4 input-group">
+            <input type="text" id="shopXCoordinates" class="form-control" placeholder="X">
+            <input type="text" id="shopYCoordinates" class="form-control" placeholder="Y">
+        </div>
+    </div>
+    <label for="shopYCoordinates" class="label p-1"></label>
+    <div class="centered">
+        <div class="col-lg-4 input-group">
+            <input type="text" id="radius" class="form-control" placeholder="Radius">
+            <select id="unit" class="form-control">
+                <option>Kilometer</option>
+                <option>Meter</option>
+                <option>Centimeter</option>
+            </select>
+        </div>
+    </div>
+    <div class="centered">
+        <div class="col-lg-6-">
+            <button class="btn btn-primary pb-2" type="submit">Search for the shop!</button>
+        </div>
+    </div>
+    <h1 class="h3 mb-3 font-weight-normal text-center">Or ... <br></h1>
+    <div class="centered">
+        <div class="col-lg-6-">
+            <button onclick="getLocation()" class="btn btn-primary pb-2" type="button">Load your location!</button>
+        </div>
+    </div>
+</form>
 </body>
 </html>
