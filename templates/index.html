@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,8 @@
     <title>Bonobo</title>
     <meta name="authors" content="Nekeal, SirPatrykKawa">
     <meta name="description" content="AGH UST database class project">
-    <link rel="icon" href="../static/img/logo.png">
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 </head>
 <body style="background-color: #5a6268">
 <script>
@@ -28,10 +29,11 @@
     }
 </script>
 <form class="Bonobo-main" method="post" role="form" id="GPS_form">
+    {#    {% csrf_token %}#}
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand mb-lg-3 h3">Bonobo - shop well, feel well!</span>
     </nav>
-    <img class="rounded mx-auto d-block p-4" src="../static/img/logo.png" alt="" width="300" height="300">
+    <img class="rounded mx-auto d-block p-4" src="{% static 'img/logo.png' %}" alt="" width="300" height="300">
     <h1 class="h3 mb-3 font-weight-normal text-center p-1">Enter shop coordinates</h1>
     <label for="shopXCoordinates" class="label p-0 "></label>
     <div class="centered">
@@ -59,9 +61,19 @@
     <h1 class="h3 mb-3 font-weight-normal text-center">Or ... <br></h1>
     <div class="centered">
         <div class="col-lg-6-">
+            <input type="submit" value="ZAPISZ">
             <button onclick="getLocation()" class="btn btn-primary pb-2" type="button">Load your location!</button>
         </div>
     </div>
 </form>
+
+<ul>
+    {% for shop in shop_list %}
+        <li><a href="{{ shop.maps_url }}"><img style="width: 20px;"
+                                               src="{% static 'img/google-maps.png' %}"
+                                               alt="google-maps-link"></a>{{ shop.slug }} {{ shop.distance | floatformat:0 }}m
+        </li>
+    {% endfor %}
+</ul>
 </body>
 </html>
