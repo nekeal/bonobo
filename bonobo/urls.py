@@ -19,11 +19,13 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from bonobo.shops.views import ShopReadOnlyViewSet
+from bonobo.views import HomepageTemplateView
 
 router = DefaultRouter()
 router.register("shops", ShopReadOnlyViewSet, "shop")
 
 urlpatterns = [
+    path("", HomepageTemplateView.as_view()),
     path("admin/", admin.site.urls),
     path("__debug__/", include(debug_toolbar.urls)),
     path("api/", include(router.urls)),
