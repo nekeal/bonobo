@@ -23,13 +23,10 @@
         window.alert("X: " + position.coords.latitude + " and Y: " + position.coords.longitude);
         document.forms["GPS_form"]["shopXCoordinates"].value = position.coords.longitude;
         document.forms["GPS_form"]["shopYCoordinates"].value = position.coords.latitude;
-        document.forms["GPS_form"]["radius"].value = 10;
-        document.getElementById("unit").selectIndex = "0";
-        document.getElementById("GPS_form").submit();
     }
 </script>
-<form class="Bonobo-main" method="post" role="form" id="GPS_form">
-    {#    {% csrf_token %}#}
+<form class="Bonobo-main" method="get" role="form" id="GPS_form">
+        {% csrf_token %}
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand mb-lg-3 h3">Bonobo - shop well, feel well!</span>
     </nav>
@@ -38,18 +35,18 @@
     <label for="shopXCoordinates" class="label p-0 "></label>
     <div class="centered">
         <div class="col-lg-4 input-group">
-            <input type="text" id="shopXCoordinates" class="form-control" placeholder="X">
-            <input type="text" id="shopYCoordinates" class="form-control" placeholder="Y">
+            <input name="lat" type="text" id="shopXCoordinates" class="form-control" placeholder="X">
+            <input name="long" type="text" id="shopYCoordinates" class="form-control" placeholder="Y">
         </div>
     </div>
     <label for="shopYCoordinates" class="label p-1"></label>
     <div class="centered">
         <div class="col-lg-4 input-group">
-            <input type="text" id="radius" class="form-control" placeholder="Radius">
-            <select id="unit" class="form-control" form="GPS_form">
-                <option>Kilometer</option>
-                <option>Meter</option>
-                <option>Centimeter</option>
+            <input name="radius" type="text" id="radius" class="form-control" placeholder="Radius">
+            <select name="unit" id="unit" class="form-control" form="GPS_form">
+                <option value="km">Kilometer</option>
+                <option value="m">Meter</option>
+                <option value="cm">Centimeter</option>
             </select>
         </div>
     </div>
