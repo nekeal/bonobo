@@ -24,7 +24,7 @@ class ShopAdmin(GeoModelAdmin):
         "get_income_month_sum",
         "get_current_year_income",
     )
-    readonly_fields = ("get_coordinates",)
+    readonly_fields = ("get_coordinates", "place_name")
     actions = ["close_shops"]
 
     def close_shops(self, request, queryset):
