@@ -26,6 +26,7 @@ class ShopAdmin(GeoModelAdmin):
     )
     readonly_fields = ("get_coordinates", "place_name")
     actions = ["close_shops"]
+    search_fields = ("slug", "reference", "place_name")
 
     def close_shops(self, request, queryset):
         for shop in queryset:
@@ -76,6 +77,7 @@ class ShopAdmin(GeoModelAdmin):
 class IncomeAdmin(admin.ModelAdmin):
     list_display = ("shop", "when", "value")
     date_hierarchy = "when"
+    search_fields = ("shop__slug", )
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related("shop")
@@ -87,6 +89,8 @@ class EmploymentAdmin(admin.ModelAdmin):
     formfield_overrides = {
         DateRangeField: {"widget": RangeWidget(AdminDateWidget())},
     }
+    list_filter = ("user", "role", "shop")
+    search_fields = ("user__first_name", "user__last_name", "role", "shop__slug",)
 
     def get_user(self, instance):
         return instance.user.get_full_name()
@@ -107,6 +111,9 @@ class EmploymentAdmin(admin.ModelAdmin):
 @admin.register(Salary)
 class SalaryAdmin(admin.ModelAdmin):
     list_display = ("get_user", "get_date", "value")
+    date_hierarchy = "when"
+    list_filter = ("employee", )
+    search_fields = ("employee__first_name", "employee__last_name")
 
     def get_user(self, instance):
         return instance.employee.get_full_name()
