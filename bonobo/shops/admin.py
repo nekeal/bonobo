@@ -34,6 +34,8 @@ class ShopAdmin(GeoModelAdmin):
         messages.success(request, "Successfully closed selected shops", )
 
     def get_coordinates(self, instance):
+        if not instance.location:
+            return
         return f"{instance.location.x}, {instance.location.y}"
 
     get_coordinates.short_description = "Coordinates"
