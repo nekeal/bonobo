@@ -14,6 +14,11 @@ class ShopViewSetListInputSerializer(serializers.Serializer):
 
 
 class ShopModelSerializer(FlexFieldsModelSerializer):
+    distance = serializers.SerializerMethodField("get_distance")
+
     class Meta:
         model = Shop
-        fields = ("id", "slug", "reference", "maps_url", "location")
+        fields = ("id", "slug", "reference", "maps_url", "location", "distance")
+
+    def get_distance(self, instance):
+        return instance.distance

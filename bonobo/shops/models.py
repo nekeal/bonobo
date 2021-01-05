@@ -38,9 +38,11 @@ class ShopQuerySet(QuerySet["Shop"]):
             if not isinstance(field, gis_models.PointField)
         ]
         q = (
-            f'SELECT {", ".join(non_location_columns)}, {", ".join(location_fields)}::bytea'
+            f'SELECT {", ".join(non_location_columns)}, {", ".join(location_fields)}::bytea, '
+            f'ST_Distance("shops_shop"."location", ST_GeogFromWKB(\'\\x{point.wkb.hex()}\'::bytea)) as distance'
             f" FROM {table_name} "
             f'WHERE ST_Distance("shops_shop"."location", ST_GeogFromWKB(\'\\x{point.wkb.hex()}\'::bytea)) <= {radius}'
+            f'ORDER BY distance'
         )
         return self.raw(q)
 
