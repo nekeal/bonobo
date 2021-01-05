@@ -1,4 +1,5 @@
 import re
+import urllib.parse
 from typing import Optional, Tuple
 
 from bonobo.shops.entities import GeocodedPlace
@@ -15,7 +16,7 @@ class GeocodingUrlParser:
             return None
         lat = float(place_re.group(2))
         long = float(place_re.group(3))
-        place = place_re.group(1).replace("+", " ")
+        place = urllib.parse.unquote(place_re.group(1).replace("+", " "))
         return GeocodedPlace(lat, long, place)
 
 
