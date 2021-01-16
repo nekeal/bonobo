@@ -42,7 +42,7 @@ class ShopQuerySet(QuerySet["Shop"]):
             f'ST_Distance("shops_shop"."location", ST_GeogFromWKB(\'\\x{point.wkb.hex()}\'::bytea)) as distance'
             f" FROM {table_name} "
             f'WHERE ST_Distance("shops_shop"."location", ST_GeogFromWKB(\'\\x{point.wkb.hex()}\'::bytea)) <= {radius}'
-            f'ORDER BY distance'
+            f"ORDER BY distance"
         )
         print(q)
         return self.raw(q)
@@ -81,7 +81,12 @@ class Shop(TimeStampedModel, OwnedModel):
 
     def close(self):
         with connection.cursor() as cursor:
-            cursor.execute("select close_shop(%s)", [self.id,])
+            cursor.execute(
+                "select close_shop(%s)",
+                [
+                    self.id,
+                ],
+            )
 
 
 class Income(models.Model):

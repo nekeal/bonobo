@@ -18,8 +18,8 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from bonobo.shops.views import ShopReadOnlyViewSet
 from bonobo.views import HomepageTemplateView
+from bonobo.shops.views import ShopReadOnlyViewSet, StatisticsTemplateView
 
 router = DefaultRouter()
 router.register("shops", ShopReadOnlyViewSet, "shop")
@@ -27,6 +27,7 @@ router.register("shops", ShopReadOnlyViewSet, "shop")
 urlpatterns = [
     path("", HomepageTemplateView.as_view()),
     path("admin/", admin.site.urls),
+    path("admin/statistics/<int:year>", StatisticsTemplateView.as_view(), name="custom_admin:shop-statistics"),
     path("__debug__/", include(debug_toolbar.urls)),
     path("api/", include(router.urls)),
 ]

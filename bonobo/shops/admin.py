@@ -31,7 +31,10 @@ class ShopAdmin(GeoModelAdmin):
     def close_shops(self, request, queryset):
         for shop in queryset:
             shop.close()
-        messages.success(request, "Successfully closed selected shops", )
+        messages.success(
+            request,
+            "Successfully closed selected shops",
+        )
 
     def get_coordinates(self, instance):
         if not instance.location:
