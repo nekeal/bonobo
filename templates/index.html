@@ -32,10 +32,13 @@
     }
 
     function setPosition(position) {
+        const urlParams = new URLSearchParams(window.location.search);
         window.latitude = position.coords.latitude;
         window.longitude = position.coords.longitude;
         document.forms["GPS_form"]["shopXCoordinates"].value = position.coords.longitude;
         document.forms["GPS_form"]["shopYCoordinates"].value = position.coords.latitude;
+        document.forms["GPS_form"]["radius"].value = parseInt(urlParams.get("radius")) || 1;
+
     }
 </script>
 <form class="Bonobo-main" method="get" role="form" id="GPS_form">
@@ -93,7 +96,8 @@
             let lat = urlParams.get("lat");
             let long = urlParams.get("long");
             let unit = urlParams.get("unit") || "m";
-            let radius = parseInt(urlParams.get("radius")) * unitConverter[unit];
+            let defaultRadius = parseInt(urlParams.get("radius")) || 1
+            let radius = defaultRadius * unitConverter[unit];
             console.log(radius);
             console.log(21213123);
             L.circle([lat, long], radius, {
