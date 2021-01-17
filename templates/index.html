@@ -1,4 +1,5 @@
 {% load static %}
+{% load leaflet_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +9,20 @@
     <meta name="description" content="AGH UST database class project">
     <link rel="icon" href="{% static 'img/logo.png' %}">
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    {% leaflet_css %}
+    <style>
+        #bonobo-map {
+            top: 0;
+            bottom: 0;
+            height: 100%;
+
+        }
+    </style>
 </head>
 <body style="background-color: #5a6268">
 <script>
+    window.onload = getLocation;
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setPosition);
@@ -20,13 +32,14 @@
     }
 
     function setPosition(position) {
-        window.alert("X: " + position.coords.latitude + " and Y: " + position.coords.longitude);
+        window.latitude = position.coords.latitude;
+        window.longitude = position.coords.longitude;
         document.forms["GPS_form"]["shopXCoordinates"].value = position.coords.longitude;
         document.forms["GPS_form"]["shopYCoordinates"].value = position.coords.latitude;
     }
 </script>
 <form class="Bonobo-main" method="get" role="form" id="GPS_form">
-        {% csrf_token %}
+    {% csrf_token %}
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand mb-lg-3 h3">Bonobo - shop well, feel well!</span>
     </nav>
@@ -63,13 +76,44 @@
     </div>
 </form>
 
-<ul>
-    {% for shop in shop_list %}
-        <li><a href="{{ shop.maps_url }}"><img style="width: 20px;"
-                                               src="{% static 'img/google-maps.png' %}"
-                                               alt="google-maps-link"></a>{{ shop.slug }} {{ shop.distance | floatformat:0 }}m
-        </li>
-    {% endfor %}
-</ul>
+{% if shop_list %}
+    <div style="width: 60%; height:600px; margin: auto">
+        {% leaflet_map "bonobo-map" callback="window.map_init_basic" %}
+    </div>
+    {% leaflet_js %}
+
+    <script>
+        function map_init_basic(map, options) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const unitConverter = {
+                km: 1000,
+                m: 1,
+                cm: 0.1,
+            };
+            let lat = urlParams.get("lat");
+            let long = urlParams.get("long");
+            let unit = urlParams.get("unit") || "m";
+            let radius = parseInt(urlParams.get("radius")) * unitConverter[unit];
+            console.log(radius);
+            console.log(21213123);
+            L.circle([lat, long], radius, {
+                    color: '#000080',
+                    width: .5,
+                    fillColor: 'blue',
+                    fillOpacity: 0.2
+                }
+            ).addTo(map)
+            {% for shop in shop_list %}
+                L.marker([{{ shop.location.y }}, {{ shop.location.x }}], {title: "{{ shop.slug }}"}).addTo(map);
+            {% endfor %}
+            map.panTo([lat, long]);
+            map.setView([lat, long], 12)
+        }
+    </script>
+{% else %}
+    <h2 style="text-align: center;">There are no bonobo shops near you. Try to increase radius.</h2>
+{% endif %}
+
 </body>
 </html>
+
