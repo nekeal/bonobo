@@ -110,10 +110,9 @@
             map.setView([lat, long], 12)
         }
     </script>
-{% else %}
+{% elif request.GET.csrfmiddlewaretoken %}
     <h2 style="text-align: center;">There are no bonobo shops near you. Try to increase radius.</h2>
 {% endif %}
-
 </body>
 </html>
 
