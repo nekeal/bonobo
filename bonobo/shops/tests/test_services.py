@@ -53,7 +53,6 @@ class TestShopGeocodingService:
         ),
     )
     def test_shop_is_not_updated_with_wrong_url(self, monkeypatch, maps_url):
-        print(maps_url)
         self.shop.maps_url = maps_url
         m_update_with_geocoded_place = mock.Mock(return_value=None)
         shop, updated = self.service.run()

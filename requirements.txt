@@ -12,3 +12,4 @@ drf-flex-fields==0.8.8
 djangorestframework-gis==0.16
 django-filter==2.4.0
 sentry-sdk==0.19.5
+django-leaflet==0.27.1

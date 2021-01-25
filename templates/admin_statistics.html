@@ -1,0 +1,66 @@
+{% extends "admin/base_site.html" %}
+{% load leaflet_tags %}
+
+{% block extrastyle %}
+{% leaflet_css %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="stats">
+    {% if error_message %}
+    <h1>No statistics are available for year {{ year }}</h1>
+    {% else %}
+
+    <h1>Statistics for year {{ year }}</h1> <br>
+    <div class="stat">
+        <h3>Employee with most dynamic salary</h3> </br>
+        <div>
+            <p>{{ employer_with_most_dynamic_salary.first_name }} {{ employer_with_most_dynamic_salary.last_name }}
+                -
+                salary rised from {{ employer_with_most_dynamic_salary.min_salary }} PLN
+                to {{ employer_with_most_dynamic_salary.max_salary }} PLN</p>
+
+        </div>
+    </div>
+
+    <div class="stat">
+        <h3>Most often fired employee</h3> <br>
+
+        <p>{{ most_fired_employee.first_name }} {{ most_fired_employee.last_name }}
+            fired {{ most_fired_employee.fired_count }} times</p>
+
+    </div>
+
+    <div class="stat">
+        <h3>Most profitable shop</h3> </br>
+        <div>
+            <p>Shop {{ most_profitable_shop.slug }} earned {{ most_profitable_shop.total_income }} PLN</p>
+
+        </div>
+    </div>
+
+    <div class="stat">
+        <h3>Shop employing most employees</h3> </br>
+        <div>
+            <p>Shop {{ shop_with_most_employees.slug }} employed {{ shop_with_most_employees.new_employments }} new
+                employees</p>
+
+        </div>
+    </div>
+
+    <div class="stat">
+        <h3>Most stable shop</h3> </br>
+        <div>
+            <p>Shop {{ most_stable_shop.slug }} changed only {{ most_stable_shop.changed_employments }}
+                employees</p>
+
+        </div>
+    </div>
+
+    <hr style="border-top: 2px solid black;">
+    {% endif %}
+
+{% endblock %}
+

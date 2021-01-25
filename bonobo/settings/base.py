@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_gis",
     "django_filters",
+    "leaflet",
     "bonobo.accounts",
     "bonobo.shops",
     "bonobo.common",
@@ -100,7 +102,15 @@ JAZZMIN_SETTINGS = {
     # List of apps to base side menu ordering off of
     "order_with_respect_to": ["accounts"],
     # Custom links to append to app groups, keyed on app name
-    "custom_links": {},
+    "custom_links": {
+        "shops": [
+            {
+                "name": "Statistics",
+                "url": f"/admin/statistics/{datetime.now().year}",
+                "icon": "fas fa-percentage",
+            }
+        ]
+    },
     # Custom icons per model in the side menu See https://www.fontawesomecheatsheet.com/font-awesome-cheatsheet-5x/
     # for a list of icon classes
     "icons": {
