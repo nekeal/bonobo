@@ -18,5 +18,4 @@ class HomepageTemplateView(ListView):
             radius=input_serializer.data["radius"],
             unit=input_serializer.data["unit"],
         )
-        print(len(qs))
         return qs

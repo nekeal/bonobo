@@ -44,7 +44,6 @@ class ShopQuerySet(QuerySet["Shop"]):
             f'WHERE ST_Distance("shops_shop"."location", ST_GeogFromWKB(\'\\x{point.wkb.hex()}\'::bytea)) <= {radius}'
             f"ORDER BY distance"
         )
-        print(q)
         return self.raw(q)
 
 

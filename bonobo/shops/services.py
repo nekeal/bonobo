@@ -30,7 +30,6 @@ class ShopGeocodingService:
         self.save = save
 
     def get_geocoded_place(self) -> Optional[GeocodedPlace]:
-        print(self.shop.maps_url)
         return GeocodingUrlParser(self.shop.maps_url).parse()
 
     def run(self) -> Tuple[Shop, bool]:
